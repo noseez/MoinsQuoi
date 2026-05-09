@@ -4,220 +4,191 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MoinsQuoi.fr — Les vrais bons plans partagés par les Français</title>
-  <meta name="description" content="Des milliers de vraies astuces partagées anonymement par des Français pour économiser sur le télécom, le logement, les courses et plus encore." />
+  <meta name="description" content="Des astuces vécues et testées pour économiser de l'argent au quotidien. Sans inscription, sans bullshit." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
-      --vert:       #16a34a;
-      --vert-dark:  #15803d;
-      --vert-light: #dcfce7;
-      --vert-xlight:#f0fdf4;
-      --rouge:      #dc2626;
-      --rouge-light:#fee2e2;
-      --rouge-xlight:#fef2f2;
-      --noir:       #0a0a0a;
-      --gris:       #6b7280;
-      --gris-light: #f3f4f6;
-      --blanc:      #ffffff;
-      --border:     #e5e7eb;
-      --radius:     14px;
-      --shadow:     0 2px 16px rgba(0,0,0,0.07);
+      --vert: #16a34a; --vert-dark: #15803d; --vert-light: #dcfce7; --vert-xlight: #f0fdf4;
+      --rouge: #dc2626; --rouge-light: #fee2e2; --rouge-xlight: #fef2f2;
+      --noir: #0a0a0a; --gris: #6b7280; --gris-light: #f3f4f6;
+      --blanc: #ffffff; --border: #e5e7eb; --radius: 14px; --shadow: 0 2px 16px rgba(0,0,0,0.07);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
     body { font-family: 'DM Sans', sans-serif; background: var(--blanc); color: var(--noir); line-height: 1.6; }
 
-    header {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border); padding: 0 24px;
-    }
-    .header-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between; height: 64px;
-    }
-    .logo {
-      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px;
-      color: var(--noir); text-decoration: none; display: flex; align-items: center; gap: 8px;
-    }
-    .logo-badge {
-      background: var(--vert); color: #fff; font-size: 11px; font-weight: 700;
-      padding: 2px 7px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase;
-    }
-    .btn-proposer {
-      background: var(--vert); color: #fff; border: none; border-radius: 10px;
-      padding: 9px 20px; font-size: 14px; font-weight: 500; cursor: pointer;
-      transition: background 0.2s, transform 0.1s; font-family: 'DM Sans', sans-serif;
-    }
-    .btn-proposer:hover { background: var(--vert-dark); transform: translateY(-1px); }
+    /* HEADER */
+    header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: var(--noir); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .logo-badge { background: var(--vert); color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+    .btn-header { background: var(--vert); color: #fff; border: none; border-radius: 10px; padding: 9px 20px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s; }
+    .btn-header:hover { background: var(--vert-dark); }
 
-    .hero {
-      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
-      padding: 72px 24px 56px; text-align: center; position: relative; overflow: hidden;
-    }
-    .hero h1 {
-      font-family: 'Syne', sans-serif; font-size: clamp(32px, 6vw, 58px);
-      font-weight: 800; line-height: 1.1; color: var(--noir); margin-bottom: 18px;
-    }
+    /* HERO */
+    .hero { background: linear-gradient(135deg, #f0fdf4, #dcfce7, #bbf7d0); padding: 64px 24px 48px; text-align: center; }
+    .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 5vw, 52px); font-weight: 800; color: var(--noir); margin-bottom: 14px; line-height: 1.15; }
     .hero h1 span { color: var(--vert); }
-    .hero p { font-size: 18px; color: #374151; max-width: 560px; margin: 0 auto 36px; font-weight: 300; }
-    .hero-stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
-    .stat { text-align: center; }
-    .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--vert); display: block; }
-    .stat-label { font-size: 13px; color: var(--gris); }
+    .hero p { font-size: 17px; color: #374151; max-width: 520px; margin: 0 auto 32px; }
+    .stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--vert); display: block; }
+    .stat-label { font-size: 12px; color: var(--gris); }
 
-    .section { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
-    .cats { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
-    .cat-btn {
-      display: flex; align-items: center; gap: 7px; padding: 9px 18px; border-radius: 50px;
-      border: 1.5px solid var(--border); background: var(--blanc); color: var(--noir);
-      font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.18s;
-      font-family: 'DM Sans', sans-serif;
-    }
-    .cat-btn:hover { border-color: var(--vert); color: var(--vert); }
-    .cat-btn.active { background: var(--vert); color: #fff; border-color: var(--vert); }
+    /* MAIN */
+    .main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-    .card {
-      background: var(--blanc); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 22px; box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
-      display: flex; flex-direction: column; gap: 12px;
-    }
-    .card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.1); }
-    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-    .cat-tag {
-      font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px;
-      background: var(--vert-light); color: var(--vert-dark); white-space: nowrap; flex-shrink: 0;
-    }
-    .economie { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--vert); }
-    .card-titre { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; line-height: 1.3; color: var(--noir); }
-    .card-desc { font-size: 14px; color: #4b5563; line-height: 1.6; flex: 1; }
-    .card-lien { font-size: 13px; }
-    .card-lien a { color: var(--vert); text-decoration: none; font-weight: 500; }
-    .card-lien a:hover { text-decoration: underline; }
+    /* FILTRES */
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+    .filter-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 50px; border: 1.5px solid var(--border); background: var(--blanc); color: var(--noir); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+    .filter-btn:hover { border-color: var(--vert); color: var(--vert); }
+    .filter-btn.active { background: var(--vert); color: #fff; border-color: var(--vert); }
 
-    .trust-bar { height: 4px; border-radius: 4px; background: var(--gris-light); overflow: hidden; }
-    .trust-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--rouge), var(--vert)); transition: width 0.4s ease; }
-    .trust-label { font-size: 11px; color: var(--gris); }
+    /* GRILLE */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
 
-    .card-votes {
-      display: flex; align-items: center; justify-content: space-between;
-      padding-top: 12px; border-top: 1px solid var(--border); gap: 10px; flex-wrap: wrap;
-    }
-    .vote-question { font-size: 12px; color: var(--gris); font-weight: 500; }
-    .vote-btns { display: flex; gap: 8px; }
-    .btn-vote {
-      display: flex; align-items: center; gap: 5px; padding: 8px 16px; border-radius: 8px;
-      border: 1.5px solid; font-size: 13px; font-weight: 600; cursor: pointer;
-      transition: all 0.18s; font-family: 'DM Sans', sans-serif;
-    }
-    .btn-vote-up { color: var(--vert); border-color: var(--vert-light); background: var(--vert-xlight); }
-    .btn-vote-up:hover:not(:disabled) { background: var(--vert-light); }
-    .btn-vote-up.voted { background: var(--vert); color: #fff; border-color: var(--vert); }
-    .btn-vote-down { color: var(--rouge); border-color: var(--rouge-light); background: var(--rouge-xlight); }
-    .btn-vote-down:hover:not(:disabled) { background: var(--rouge-light); }
-    .btn-vote-down.voted { background: var(--rouge); color: #fff; border-color: var(--rouge); }
-    .btn-vote:disabled { opacity: 0.5; cursor: not-allowed; }
+    /* CARTE */
+    .card { background: var(--blanc); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; transition: transform 0.2s, box-shadow 0.2s; }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
+    .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .cat-tag { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--vert-light); color: var(--vert-dark); white-space: nowrap; }
+    .eco { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--vert); white-space: nowrap; }
+    .card-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--noir); line-height: 1.35; }
+    .card-desc { font-size: 13px; color: #4b5563; line-height: 1.6; flex: 1; }
+    .card-link a { font-size: 13px; color: var(--vert); font-weight: 500; text-decoration: none; }
+    .card-link a:hover { text-decoration: underline; }
 
+    /* BARRE CONFIANCE */
+    .trust-wrap { margin-top: 2px; }
+    .trust-bar { height: 4px; border-radius: 4px; background: var(--gris-light); overflow: hidden; margin-bottom: 4px; }
+    .trust-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--rouge) 0%, #facc15 50%, var(--vert) 100%); transition: width 0.4s; }
+    .trust-text { font-size: 11px; color: var(--gris); }
+
+    /* VOTES SUR CHAQUE CARTE */
+    .card-votes { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 4px; }
+    .votes-question { font-size: 12px; color: var(--gris); font-weight: 500; margin-bottom: 8px; }
+    .votes-btns { display: flex; gap: 8px; }
+    .btn-up, .btn-down {
+      display: flex; align-items: center; gap: 5px;
+      padding: 7px 14px; border-radius: 8px; border: 1.5px solid;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+    }
+    .btn-up { color: var(--vert); border-color: var(--vert-light); background: var(--vert-xlight); }
+    .btn-up:hover:not(:disabled) { background: var(--vert-light); }
+    .btn-up.voted { background: var(--vert); color: #fff; border-color: var(--vert); }
+    .btn-down { color: var(--rouge); border-color: var(--rouge-light); background: var(--rouge-xlight); }
+    .btn-down:hover:not(:disabled) { background: var(--rouge-light); }
+    .btn-down.voted { background: var(--rouge); color: #fff; border-color: var(--rouge); }
+    .btn-up:disabled, .btn-down:disabled { opacity: 0.55; cursor: not-allowed; }
     .card-date { font-size: 11px; color: var(--gris); }
 
-    .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 8px; }
-    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-    .skeleton-card { background: var(--blanc); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; gap: 12px; }
-    .sk-line { height: 14px; border-radius: 6px; }
+    /* SKELETONS */
+    .sk-card { background: var(--blanc); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+    .sk { background: linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%); background-size: 200% 100%; animation: sk 1.4s infinite; border-radius: 6px; height: 13px; }
+    @keyframes sk { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-    .empty { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--gris); }
-    .empty-icon { font-size: 48px; margin-bottom: 16px; }
-    .empty h3 { font-family: 'Syne', sans-serif; font-size: 20px; color: var(--noir); margin-bottom: 8px; }
+    /* VIDE */
+    .empty { grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--gris); }
+    .empty-icon { font-size: 44px; margin-bottom: 12px; }
+    .empty h3 { font-family:'Syne',sans-serif; font-size:18px; color:var(--noir); margin-bottom:6px; }
 
-    .modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); justify-content: center; align-items: center; padding: 20px; }
-    .modal-overlay.open { display: flex; }
-    .modal { background: var(--blanc); border-radius: 20px; padding: 36px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: modalIn 0.25s ease; }
-    @keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: none; } }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
-    .modal-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
-    .modal-close { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: none; cursor: pointer; font-size: 18px; color: var(--gris); display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
-    .modal-close:hover { background: var(--gris-light); }
-    .form-group { margin-bottom: 18px; }
-    .form-label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 7px; }
-    .form-label span { color: var(--vert); }
-    .form-input, .form-select, .form-textarea { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--noir); background: var(--blanc); transition: border-color 0.18s; outline: none; }
-    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--vert); }
-    .form-textarea { min-height: 100px; resize: vertical; line-height: 1.5; }
-    .honeypot { display: none !important; }
-    .info-box { background: var(--vert-xlight); border: 1px solid var(--vert-light); border-radius: 10px; padding: 14px 16px; font-size: 13px; color: #166534; line-height: 1.5; margin-bottom: 20px; }
-    .btn-submit { width: 100%; padding: 14px; background: var(--vert); color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; font-family: 'DM Sans', sans-serif; }
-    .btn-submit:hover { background: var(--vert-dark); transform: translateY(-1px); }
-    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    /* MODAL */
+    .overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 16px; }
+    .overlay.open { display: flex; }
+    .modal { background: var(--blanc); border-radius: 18px; padding: 32px; width: 100%; max-width: 500px; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: pop 0.22s ease; }
+    @keyframes pop { from{opacity:0;transform:scale(0.95) translateY(8px)} to{opacity:1;transform:none} }
+    .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .modal-head h2 { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; }
+    .btn-close { width:34px; height:34px; border-radius:50%; border:1px solid var(--border); background:none; cursor:pointer; font-size:16px; color:var(--gris); display:flex; align-items:center; justify-content:center; }
+    .btn-close:hover { background: var(--gris-light); }
+    .info { background:var(--vert-xlight); border:1px solid var(--vert-light); border-radius:10px; padding:12px 14px; font-size:13px; color:#166534; margin-bottom:20px; line-height:1.5; }
+    .fg { margin-bottom: 16px; }
+    .fg label { display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px; }
+    .fg label span { color:var(--vert); }
+    .fg input, .fg select, .fg textarea { width:100%; padding:10px 13px; border:1.5px solid var(--border); border-radius:9px; font-size:14px; font-family:'DM Sans',sans-serif; color:var(--noir); background:var(--blanc); outline:none; transition:border-color 0.15s; }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color:var(--vert); }
+    .fg textarea { min-height:95px; resize:vertical; line-height:1.5; }
+    .honeypot { display:none!important; }
+    .btn-submit { width:100%; padding:13px; background:var(--vert); color:#fff; border:none; border-radius:11px; font-size:15px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; transition:background 0.2s; }
+    .btn-submit:hover:not(:disabled) { background:var(--vert-dark); }
+    .btn-submit:disabled { opacity:0.6; cursor:not-allowed; }
 
-    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--noir); color: #fff; padding: 14px 24px; border-radius: 50px; font-size: 14px; font-weight: 500; z-index: 300; transition: transform 0.3s ease; white-space: nowrap; }
-    .toast.show { transform: translateX(-50%) translateY(0); }
-    .toast.success { background: var(--vert); }
-    .toast.error { background: var(--rouge); }
+    /* TOAST */
+    .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(70px); background:var(--noir); color:#fff; padding:12px 22px; border-radius:50px; font-size:14px; font-weight:500; z-index:300; transition:transform 0.3s; white-space:nowrap; pointer-events:none; }
+    .toast.show { transform:translateX(-50%) translateY(0); }
+    .toast.ok { background:var(--vert); }
+    .toast.err { background:var(--rouge); }
 
-    footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; color: var(--gris); font-size: 13px; margin-top: 40px; }
-    footer strong { color: var(--vert); }
+    /* FOOTER */
+    footer { border-top:1px solid var(--border); padding:28px 24px; text-align:center; color:var(--gris); font-size:13px; margin-top:32px; }
+    footer strong { color:var(--vert); }
 
-    @media (max-width: 600px) {
-      .hero { padding: 48px 16px 40px; }
-      .hero-stats { gap: 24px; }
-      .section { padding: 32px 16px; }
-      .grid { grid-template-columns: 1fr; }
-      .modal { padding: 24px; }
+    @media(max-width:600px){
+      .hero{padding:44px 16px 36px;}
+      .stats{gap:20px;}
+      .main{padding:28px 14px;}
+      .grid{grid-template-columns:1fr;}
+      .modal{padding:22px;}
     }
   </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
   <div class="header-inner">
     <a href="/" class="logo">MoinsQuoi <span class="logo-badge">FR</span></a>
-    <button class="btn-proposer" onclick="openModal()">+ Partager un bon plan</button>
+    <button class="btn-header" onclick="openModal()">+ Partager un bon plan</button>
   </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
-  <h1>Les vrais bons plans<br /><span>partagés par les Français</span></h1>
-  <p>Des astuces vécues et testées pour économiser au quotidien. Sans inscription, sans bullshit.</p>
-  <div class="hero-stats">
-    <div class="stat"><span class="stat-num" id="stat-total">—</span><span class="stat-label">bons plans en ligne</span></div>
-    <div class="stat"><span class="stat-num" id="stat-positifs">—</span><span class="stat-label">pouces verts 👍</span></div>
-    <div class="stat"><span class="stat-num" id="stat-economie">—€</span><span class="stat-label">économies potentielles</span></div>
+  <h1>Les vrais bons plans<br><span>partagés par les Français</span></h1>
+  <p>Des astuces vécues et testées pour économiser au quotidien. Anonyme, gratuit, voté par la communauté.</p>
+  <div class="stats">
+    <div><span class="stat-num" id="s-total">—</span><span class="stat-label">bons plans</span></div>
+    <div><span class="stat-num" id="s-up">—</span><span class="stat-label">👍 pouces verts</span></div>
+    <div><span class="stat-num" id="s-eco">—€</span><span class="stat-label">économies potentielles</span></div>
   </div>
 </section>
 
-<div class="section">
-  <div class="cats" id="cats">
-    <button class="cat-btn active" onclick="filterCat('tous', this)">🔥 Tous</button>
-    <button class="cat-btn" onclick="filterCat('Télécom', this)">📱 Télécom</button>
-    <button class="cat-btn" onclick="filterCat('Logement', this)">🏠 Logement</button>
-    <button class="cat-btn" onclick="filterCat('Courses', this)">🛒 Courses</button>
-    <button class="cat-btn" onclick="filterCat('Santé', this)">🏥 Santé</button>
-    <button class="cat-btn" onclick="filterCat('Voiture', this)">🚗 Voiture</button>
-    <button class="cat-btn" onclick="filterCat('Aides', this)">💼 Aides</button>
-    <button class="cat-btn" onclick="filterCat('Abonnements', this)">📦 Abonnements</button>
+<!-- CONTENU -->
+<div class="main">
+  <!-- Filtres catégories -->
+  <div class="filters" id="filters">
+    <button class="filter-btn active" onclick="filterCat('tous',this)">🔥 Tous</button>
+    <button class="filter-btn" onclick="filterCat('Télécom',this)">📱 Télécom</button>
+    <button class="filter-btn" onclick="filterCat('Logement',this)">🏠 Logement</button>
+    <button class="filter-btn" onclick="filterCat('Courses',this)">🛒 Courses</button>
+    <button class="filter-btn" onclick="filterCat('Santé',this)">🏥 Santé</button>
+    <button class="filter-btn" onclick="filterCat('Voiture',this)">🚗 Voiture</button>
+    <button class="filter-btn" onclick="filterCat('Aides',this)">💼 Aides</button>
+    <button class="filter-btn" onclick="filterCat('Abonnements',this)">📦 Abonnements</button>
   </div>
 
+  <!-- Grille des bons plans -->
   <div class="grid" id="grid">
-    <div class="skeleton-card"><div class="skeleton sk-line" style="width:40%"></div><div class="skeleton sk-line" style="width:80%"></div><div class="skeleton sk-line" style="width:100%;height:60px"></div><div class="skeleton sk-line" style="width:60%"></div></div>
-    <div class="skeleton-card"><div class="skeleton sk-line" style="width:35%"></div><div class="skeleton sk-line" style="width:75%"></div><div class="skeleton sk-line" style="width:100%;height:60px"></div><div class="skeleton sk-line" style="width:50%"></div></div>
-    <div class="skeleton-card"><div class="skeleton sk-line" style="width:45%"></div><div class="skeleton sk-line" style="width:85%"></div><div class="skeleton sk-line" style="width:100%;height:60px"></div><div class="skeleton sk-line" style="width:55%"></div></div>
+    <div class="sk-card"><div class="sk" style="width:40%"></div><div class="sk" style="width:80%"></div><div class="sk" style="height:55px"></div><div class="sk" style="width:55%"></div></div>
+    <div class="sk-card"><div class="sk" style="width:35%"></div><div class="sk" style="width:75%"></div><div class="sk" style="height:55px"></div><div class="sk" style="width:60%"></div></div>
+    <div class="sk-card"><div class="sk" style="width:45%"></div><div class="sk" style="width:85%"></div><div class="sk" style="height:55px"></div><div class="sk" style="width:50%"></div></div>
   </div>
 </div>
 
-<div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+<!-- MODAL SOUMISSION -->
+<div class="overlay" id="overlay" onclick="bgClick(event)">
   <div class="modal">
-    <div class="modal-header">
-      <h2 class="modal-title">Partager un bon plan</h2>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-head">
+      <h2>Partager un bon plan</h2>
+      <button class="btn-close" onclick="closeModal()">✕</button>
     </div>
-    <div class="info-box">👋 <strong>Anonyme et gratuit</strong> — Ton bon plan sera en ligne immédiatement. La communauté pourra voter 👍 ou 👎 pour confirmer s'il fonctionne encore.</div>
-    <div class="form-group">
-      <label class="form-label" for="f-categorie">Catégorie <span>*</span></label>
-      <select class="form-select" id="f-categorie">
-        <option value="">Choisir...</option>
+    <div class="info">👋 <strong>Anonyme et immédiat</strong> — Ton bon plan sera publié instantanément. La communauté pourra voter 👍 ou 👎 pour confirmer s'il fonctionne encore.</div>
+
+    <div class="fg">
+      <label for="f-cat">Catégorie <span>*</span></label>
+      <select id="f-cat">
+        <option value="">Choisir une catégorie...</option>
         <option value="Télécom">📱 Télécom & Internet</option>
         <option value="Logement">🏠 Logement & Charges</option>
         <option value="Courses">🛒 Courses & Alimentation</option>
@@ -227,112 +198,135 @@
         <option value="Abonnements">📦 Abonnements & Services</option>
       </select>
     </div>
-    <div class="form-group">
-      <label class="form-label" for="f-titre">Titre <span>*</span></label>
-      <input class="form-input" id="f-titre" type="text" placeholder="Ex: Free Mobile à 2€/mois pour abonnés Freebox" maxlength="120" />
+    <div class="fg">
+      <label for="f-titre">Titre <span>*</span></label>
+      <input id="f-titre" type="text" placeholder="Ex: Free Mobile à 2€/mois pour abonnés Freebox" maxlength="120" />
     </div>
-    <div class="form-group">
-      <label class="form-label" for="f-desc">Description <span>*</span></label>
-      <textarea class="form-textarea" id="f-desc" placeholder="Explique comment ça fonctionne, les conditions..." maxlength="600"></textarea>
+    <div class="fg">
+      <label for="f-desc">Description <span>*</span></label>
+      <textarea id="f-desc" placeholder="Explique comment ça fonctionne, les conditions, ce que tu as fait..." maxlength="600"></textarea>
     </div>
-    <div class="form-group">
-      <label class="form-label" for="f-lien">Lien source <span>*</span></label>
-      <input class="form-input" id="f-lien" type="url" placeholder="https://..." />
+    <div class="fg">
+      <label for="f-lien">Lien source <span>*</span></label>
+      <input id="f-lien" type="url" placeholder="https://..." />
     </div>
-    <div class="form-group">
-      <label class="form-label" for="f-economie">Économie estimée (€)</label>
-      <input class="form-input" id="f-economie" type="number" min="1" max="9999" placeholder="Ex: 15" />
+    <div class="fg">
+      <label for="f-eco">Économie estimée (€)</label>
+      <input id="f-eco" type="number" min="1" max="9999" placeholder="Ex: 15" />
     </div>
+    <!-- Honeypot anti-spam -->
     <div class="honeypot"><input type="text" id="f-honey" tabindex="-1" autocomplete="off" /></div>
-    <button class="btn-submit" id="btn-submit" onclick="submitPlan()">Publier ce bon plan</button>
+    <button class="btn-submit" id="btn-submit" onclick="soumettre()">Publier ce bon plan</button>
   </div>
 </div>
 
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<!-- FOOTER -->
 <footer>
-  <p><strong>MoinsQuoi.fr</strong> — Les vrais bons plans des Français, pour les Français.<br />Partagé anonymement · Voté par la communauté · 100% gratuit</p>
+  <strong>MoinsQuoi.fr</strong> — Les vrais bons plans des Français, pour les Français.<br>
+  Anonyme · Voté par la communauté · 100% gratuit
 </footer>
 
 <script>
-  const SUPABASE_URL  = [https://aorsbsggjtdtnvmrohhi.supabase.co](https://aorsbsggjtdtnvmrohhi.supabase.co/rest/v1/);
-  const SUPABASE_ANON = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvcnNic2dnanRkdG52bXJvaGhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMzA3MTEsImV4cCI6MjA5MzgwNjcxMX0.b2P_JPytYStDGLzg1CJ3TPCdmHNdE2YL3raB6baA1qI;
+  // ═══════════════════════════════════════════
+  // CONFIG — remplace ces deux valeurs
+  // ═══════════════════════════════════════════
+  const SUPABASE_URL  = '[https://aorsbsggjtdtnvmrohhi.supabase.co](https://aorsbsggjtdtnvmrohhi.supabase.co/rest/v1/)';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvcnNic2dnanRkdG52bXJvaGhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMzA3MTEsImV4cCI6MjA5MzgwNjcxMX0.b2P_JPytYStDGLzg1CJ3TPCdmHNdE2YL3raB6baA1qI';
+  // ═══════════════════════════════════════════
 
   const { createClient } = supabase;
   const db = createClient(SUPABASE_URL, SUPABASE_ANON);
 
-  let allPlans = [];
+  const EMOJIS = { Télécom:'📱', Logement:'🏠', Courses:'🛒', Santé:'🏥', Voiture:'🚗', Aides:'💼', Abonnements:'📦' };
+  let plans = [];
   let catActive = 'tous';
-  const myVotes = JSON.parse(localStorage.getItem('mq_votes') || '{}');
+  let votes = JSON.parse(localStorage.getItem('mq_v2') || '{}');
 
-  const EMOJIS = { 'Télécom':'📱','Logement':'🏠','Courses':'🛒','Santé':'🏥','Voiture':'🚗','Aides':'💼','Abonnements':'📦' };
+  // ── CHARGEMENT ────────────────────────────
+  async function charger() {
+    try {
+      const { data, error } = await db
+        .from('bons_plans')
+        .select('id,categorie,titre,description,lien,economie_estimee,confirmations,votes_negatifs,created_at')
+        .eq('is_active', true)
+        .order('created_at', { ascending: false });
 
-  async function load() {
-    const { data, error } = await db.from('bons_plans').select('*').eq('is_active', true).order('created_at', { ascending: false });
-    if (error) { console.error(error); return; }
-    allPlans = data || [];
-    updateStats();
-    render();
+      if (error) throw error;
+      plans = data || [];
+      majStats();
+      afficher();
+    } catch (e) {
+      console.error('Erreur chargement:', e);
+      document.getElementById('grid').innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><h3>Erreur de chargement</h3><p>Vérifie tes clés Supabase.</p></div>';
+    }
   }
 
-  function updateStats() {
-    document.getElementById('stat-total').textContent = allPlans.length;
-    const totalPos = allPlans.reduce((s, p) => s + (p.confirmations || 0), 0);
-    document.getElementById('stat-positifs').textContent = totalPos.toLocaleString('fr-FR');
-    const totalEco = allPlans.reduce((s, p) => s + (p.economie_estimee || 0), 0);
-    document.getElementById('stat-economie').textContent = totalEco.toLocaleString('fr-FR') + '€';
+  function majStats() {
+    document.getElementById('s-total').textContent = plans.length;
+    document.getElementById('s-up').textContent    = plans.reduce((s,p) => s+(p.confirmations||0), 0).toLocaleString('fr-FR');
+    document.getElementById('s-eco').textContent   = plans.reduce((s,p) => s+(p.economie_estimee||0), 0).toLocaleString('fr-FR') + '€';
   }
 
-  function getTrustPct(up, down) {
-    const total = up + down;
-    if (total === 0) return 50;
-    return Math.round((up / total) * 100);
+  function pct(up, down) {
+    const t = up + down;
+    return t === 0 ? 50 : Math.round((up/t)*100);
   }
-
-  function getTrustLabel(pct, total) {
+  function labelConfiance(p, total) {
     if (total === 0) return '🗳️ Pas encore de votes';
-    if (pct >= 80) return '✅ Très fiable';
-    if (pct >= 60) return '👍 Plutôt fiable';
-    if (pct >= 40) return '⚠️ Avis partagés';
+    if (p >= 80)     return '✅ Très fiable';
+    if (p >= 60)     return '👍 Plutôt fiable';
+    if (p >= 40)     return '⚠️ Avis partagés';
     return '❌ Peu fiable';
   }
 
-  function render() {
-    const grid = document.getElementById('grid');
-    const filtered = catActive === 'tous' ? allPlans : allPlans.filter(p => p.categorie === catActive);
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
 
-    if (filtered.length === 0) {
+  function afficher() {
+    const grid = document.getElementById('grid');
+    const liste = catActive === 'tous' ? plans : plans.filter(p => p.categorie === catActive);
+
+    if (liste.length === 0) {
       grid.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><h3>Aucun bon plan ici pour l'instant</h3><p>Sois le premier à en partager un !</p></div>`;
       return;
     }
 
-    grid.innerHTML = filtered.map(plan => {
-      const myVote = myVotes[plan.id] || null;
-      const up     = plan.confirmations || 0;
-      const down   = plan.votes_negatifs || 0;
-      const pct    = getTrustPct(up, down);
-      const total  = up + down;
-      const date   = new Date(plan.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
-      const eco    = plan.economie_estimee ? `<span class="economie">~${plan.economie_estimee}€</span>` : '';
+    grid.innerHTML = liste.map(p => {
+      const up    = p.confirmations   || 0;
+      const down  = p.votes_negatifs  || 0;
+      const total = up + down;
+      const pc    = pct(up, down);
+      const vote  = votes[p.id] || null;
+      const date  = new Date(p.created_at).toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' });
+      const eco   = p.economie_estimee ? `<span class="eco">~${p.economie_estimee}€</span>` : '';
 
-      return `<div class="card" id="card-${plan.id}">
-        <div class="card-top">
-          <span class="cat-tag">${EMOJIS[plan.categorie]||''} ${plan.categorie}</span>
+      return `
+      <div class="card" id="c-${p.id}">
+        <div class="card-head">
+          <span class="cat-tag">${EMOJIS[p.categorie]||''} ${esc(p.categorie)}</span>
           ${eco}
         </div>
-        <div class="card-titre">${escHtml(plan.titre)}</div>
-        <div class="card-desc">${escHtml(plan.description)}</div>
-        <div class="card-lien">🔗 <a href="${escHtml(plan.lien)}" target="_blank" rel="noopener">Voir l'offre</a></div>
-        <div class="trust-bar"><div class="trust-fill" id="fill-${plan.id}" style="width:${pct}%"></div></div>
-        <div class="trust-label" id="trust-${plan.id}">${getTrustLabel(pct, total)} · ${total} vote${total !== 1 ? 's' : ''}</div>
+        <div class="card-title">${esc(p.titre)}</div>
+        <div class="card-desc">${esc(p.description)}</div>
+        <div class="card-link">🔗 <a href="${esc(p.lien)}" target="_blank" rel="noopener noreferrer">Voir l'offre</a></div>
+
+        <div class="trust-wrap">
+          <div class="trust-bar"><div class="trust-fill" id="tf-${p.id}" style="width:${pc}%"></div></div>
+          <div class="trust-text" id="tt-${p.id}">${labelConfiance(pc, total)} · ${total} vote${total!==1?'s':''}</div>
+        </div>
+
         <div class="card-votes">
-          <span class="vote-question">Cette offre fonctionne encore ?</span>
-          <div class="vote-btns">
-            <button class="btn-vote btn-vote-up ${myVote==='up'?'voted':''}" onclick="voter('${plan.id}','up')" ${myVote?'disabled':''}>
-              👍 <span id="up-${plan.id}">${up}</span>
+          <div class="votes-question">Cette offre fonctionne encore ?</div>
+          <div class="votes-btns">
+            <button class="btn-up ${vote==='up'?'voted':''}" onclick="voter('${p.id}','up')" ${vote?'disabled':''}>
+              👍 <span id="u-${p.id}">${up}</span>
             </button>
-            <button class="btn-vote btn-vote-down ${myVote==='down'?'voted':''}" onclick="voter('${plan.id}','down')" ${myVote?'disabled':''}>
-              👎 <span id="down-${plan.id}">${down}</span>
+            <button class="btn-down ${vote==='down'?'voted':''}" onclick="voter('${p.id}','down')" ${vote?'disabled':''}>
+              👎 <span id="d-${p.id}">${down}</span>
             </button>
           </div>
         </div>
@@ -341,107 +335,144 @@
     }).join('');
   }
 
-  function escHtml(str) {
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
+  // ── FILTRE ────────────────────────────────
   function filterCat(cat, btn) {
     catActive = cat;
-    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    render();
+    afficher();
   }
 
+  // ── VOTER ─────────────────────────────────
   async function voter(id, type) {
-    if (myVotes[id]) return;
-    const plan = allPlans.find(p => p.id === id);
+    if (votes[id]) return;
+    const plan = plans.find(p => p.id === id);
     if (!plan) return;
 
-    const card = document.getElementById('card-' + id);
-    card.querySelectorAll('.btn-vote').forEach(b => b.disabled = true);
+    const card = document.getElementById('c-' + id);
+    card.querySelectorAll('.btn-up,.btn-down').forEach(b => b.disabled = true);
 
-    let err;
-    if (type === 'up') {
-      const r = await db.rpc('increment_confirmations', { plan_id: id });
-      err = r.error;
-      if (!err) plan.confirmations = (plan.confirmations || 0) + 1;
-    } else {
-      const newVal = (plan.votes_negatifs || 0) + 1;
-      const r = await db.from('bons_plans').update({ votes_negatifs: newVal }).eq('id', id);
-      err = r.error;
-      if (!err) plan.votes_negatifs = newVal;
-    }
+    try {
+      if (type === 'up') {
+        const { error } = await db.rpc('increment_confirmations', { plan_id: id });
+        if (error) throw error;
+        plan.confirmations = (plan.confirmations || 0) + 1;
+      } else {
+        const newVal = (plan.votes_negatifs || 0) + 1;
+        const { error } = await db.from('bons_plans').update({ votes_negatifs: newVal }).eq('id', id);
+        if (error) throw error;
+        plan.votes_negatifs = newVal;
+      }
 
-    if (!err) {
-      myVotes[id] = type;
-      localStorage.setItem('mq_votes', JSON.stringify(myVotes));
+      votes[id] = type;
+      localStorage.setItem('mq_v2', JSON.stringify(votes));
 
-      const up   = plan.confirmations || 0;
-      const down = plan.votes_negatifs || 0;
-      const pct  = getTrustPct(up, down);
+      const up    = plan.confirmations  || 0;
+      const down  = plan.votes_negatifs || 0;
       const total = up + down;
+      const pc    = pct(up, down);
 
-      document.getElementById('up-' + id).textContent   = up;
-      document.getElementById('down-' + id).textContent = down;
-      document.getElementById('fill-' + id).style.width = pct + '%';
-      document.getElementById('trust-' + id).textContent = getTrustLabel(pct, total) + ' · ' + total + ' vote' + (total !== 1 ? 's' : '');
+      document.getElementById('u-'  + id).textContent = up;
+      document.getElementById('d-'  + id).textContent = down;
+      document.getElementById('tf-' + id).style.width = pc + '%';
+      document.getElementById('tt-' + id).textContent = labelConfiance(pc, total) + ' · ' + total + ' vote' + (total!==1?'s':'');
+      card.querySelector('.btn-' + type).classList.add('voted');
 
-      card.querySelector('.btn-vote-' + type).classList.add('voted');
-      updateStats();
-      showToast(type === 'up' ? '👍 Merci pour ton vote !' : '👎 Merci pour ton retour !', 'success');
-    } else {
-      card.querySelectorAll('.btn-vote').forEach(b => b.disabled = false);
-      showToast('Erreur lors du vote.', 'error');
+      majStats();
+      toast(type === 'up' ? '👍 Merci pour ton vote !' : '👎 Merci pour ton retour !', 'ok');
+    } catch(e) {
+      console.error('Erreur vote:', e);
+      card.querySelectorAll('.btn-up,.btn-down').forEach(b => b.disabled = false);
+      toast('Erreur lors du vote. Réessaie.', 'err');
     }
   }
 
-  function openModal()  { document.getElementById('modal').classList.add('open');    document.body.style.overflow = 'hidden'; }
-  function closeModal() { document.getElementById('modal').classList.remove('open'); document.body.style.overflow = ''; }
-  function handleOverlayClick(e) { if (e.target === document.getElementById('modal')) closeModal(); }
+  // ── MODAL ─────────────────────────────────
+  function openModal()  { document.getElementById('overlay').classList.add('open');    document.body.style.overflow='hidden'; }
+  function closeModal() { document.getElementById('overlay').classList.remove('open'); document.body.style.overflow=''; }
+  function bgClick(e)   { if (e.target===document.getElementById('overlay')) closeModal(); }
 
-  async function submitPlan() {
+  // ── SOUMISSION ────────────────────────────
+  async function soumettre() {
+    // Anti-spam honeypot
     if (document.getElementById('f-honey').value) return;
-    const categorie = document.getElementById('f-categorie').value.trim();
-    const titre     = document.getElementById('f-titre').value.trim();
-    const desc      = document.getElementById('f-desc').value.trim();
-    const lien      = document.getElementById('f-lien').value.trim();
-    const eco       = parseInt(document.getElementById('f-economie').value) || null;
-    const btn       = document.getElementById('btn-submit');
 
-    if (!categorie || !titre || !desc || !lien) { showToast('Merci de remplir tous les champs obligatoires.', 'error'); return; }
-    if (!lien.startsWith('http')) { showToast('Le lien doit commencer par http:// ou https://', 'error'); return; }
+    const cat   = document.getElementById('f-cat').value.trim();
+    const titre = document.getElementById('f-titre').value.trim();
+    const desc  = document.getElementById('f-desc').value.trim();
+    const lien  = document.getElementById('f-lien').value.trim();
+    const eco   = parseInt(document.getElementById('f-eco').value) || null;
+    const btn   = document.getElementById('btn-submit');
+
+    // Validation
+    if (!cat)   { toast('Choisis une catégorie.', 'err'); return; }
+    if (!titre) { toast('Ajoute un titre.', 'err'); return; }
+    if (!desc)  { toast('Ajoute une description.', 'err'); return; }
+    if (!lien)  { toast('Ajoute un lien source.', 'err'); return; }
+    if (!lien.startsWith('http')) { toast('Le lien doit commencer par https://', 'err'); return; }
 
     btn.disabled = true;
     btn.textContent = 'Publication en cours...';
 
-    const { error } = await db.from('bons_plans').insert([{
-      categorie, titre, description: desc, lien,
-      economie_estimee: eco, is_active: true,
-      confirmations: 0, votes_negatifs: 0
-    }]);
+    try {
+      const { data, error } = await db
+        .from('bons_plans')
+        .insert({
+          categorie:        cat,
+          titre:            titre,
+          description:      desc,
+          lien:             lien,
+          economie_estimee: eco,
+          is_active:        true,
+          confirmations:    0,
+          votes_negatifs:   0
+        })
+        .select()
+        .single();
 
-    if (error) {
+      if (error) {
+        if (error.code === '23505') {
+          toast('Ce lien existe déjà sur le site.', 'err');
+        } else {
+          console.error('Erreur INSERT:', error);
+          toast('Erreur : ' + (error.message || 'réessaie.'), 'err');
+        }
+        btn.disabled = false;
+        btn.textContent = 'Publier ce bon plan';
+        return;
+      }
+
+      // Succès
+      closeModal();
+      document.getElementById('f-cat').value   = '';
+      document.getElementById('f-titre').value = '';
+      document.getElementById('f-desc').value  = '';
+      document.getElementById('f-lien').value  = '';
+      document.getElementById('f-eco').value   = '';
       btn.disabled = false;
       btn.textContent = 'Publier ce bon plan';
-      showToast(error.code === '23505' ? 'Ce lien existe déjà.' : 'Erreur. Réessaie.', 'error');
-      return;
-    }
 
-    closeModal();
-    ['f-categorie','f-titre','f-desc','f-lien','f-economie'].forEach(id => document.getElementById(id).value = '');
-    btn.disabled = false;
-    btn.textContent = 'Publier ce bon plan';
-    showToast('✅ Bon plan publié ! Merci pour ta contribution.', 'success');
-    setTimeout(load, 1000);
+      toast('✅ Bon plan publié ! Merci pour ta contribution.', 'ok');
+      await charger();
+
+    } catch(e) {
+      console.error('Erreur inattendue:', e);
+      toast('Erreur inattendue. Réessaie.', 'err');
+      btn.disabled = false;
+      btn.textContent = 'Publier ce bon plan';
+    }
   }
 
-  function showToast(msg, type = '') {
+  // ── TOAST ─────────────────────────────────
+  function toast(msg, type='') {
     const t = document.getElementById('toast');
-    t.textContent = msg; t.className = `toast ${type} show`;
+    t.textContent = msg;
+    t.className = `toast ${type} show`;
     setTimeout(() => { t.className = 'toast'; }, 3500);
   }
 
-  load();
+  // ── INIT ──────────────────────────────────
+  charger();
 </script>
 </body>
 </html>
