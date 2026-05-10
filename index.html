@@ -339,47 +339,41 @@
     afficher();
   }
 
-  // VOTER — permet de changer son vote ou de voter pour la première fois
+  // VOTER — une seule fois par plan, modifiable, via RPC uniquement
   async function voter(id, type) {
     const plan = plans.find(p => p.id === id);
     if (!plan) return;
 
     const currentVote = votes[id] || null;
 
-    // Si même vote → on annule (toggle)
-    if (currentVote === type) {
-      // Annuler le vote
-      try {
+    try {
+      // Si même vote → annuler
+      if (currentVote === type) {
         if (type === 'up') {
-          const newVal = Math.max(0, (plan.confirmations || 0) - 1);
-          await db.from('bons_plans').update({ confirmations: newVal }).eq('id', id);
-          plan.confirmations = newVal;
+          const { error } = await db.rpc('decrement_confirmations', { plan_id: id });
+          if (error) throw error;
+          plan.confirmations = Math.max(0, (plan.confirmations || 0) - 1);
         } else {
-          const newVal = Math.max(0, (plan.votes_negatifs || 0) - 1);
-          await db.from('bons_plans').update({ votes_negatifs: newVal }).eq('id', id);
-          plan.votes_negatifs = newVal;
+          const { error } = await db.rpc('decrement_votes_negatifs', { plan_id: id });
+          if (error) throw error;
+          plan.votes_negatifs = Math.max(0, (plan.votes_negatifs || 0) - 1);
         }
         delete votes[id];
         localStorage.setItem('mq_v3', JSON.stringify(votes));
         majCarte(id, plan);
         toast('Vote annulé.', '');
-      } catch(e) { toast('Erreur. Réessaie.', 'err'); }
-      return;
-    }
+        return;
+      }
 
-    // Si vote différent → changer
-    try {
-      if (currentVote) {
-        // Annuler l'ancien vote d'abord
-        if (currentVote === 'up') {
-          const newVal = Math.max(0, (plan.confirmations || 0) - 1);
-          await db.from('bons_plans').update({ confirmations: newVal }).eq('id', id);
-          plan.confirmations = newVal;
-        } else {
-          const newVal = Math.max(0, (plan.votes_negatifs || 0) - 1);
-          await db.from('bons_plans').update({ votes_negatifs: newVal }).eq('id', id);
-          plan.votes_negatifs = newVal;
-        }
+      // Si vote différent → annuler l'ancien puis ajouter le nouveau
+      if (currentVote === 'up') {
+        const { error } = await db.rpc('decrement_confirmations', { plan_id: id });
+        if (error) throw error;
+        plan.confirmations = Math.max(0, (plan.confirmations || 0) - 1);
+      } else if (currentVote === 'down') {
+        const { error } = await db.rpc('decrement_votes_negatifs', { plan_id: id });
+        if (error) throw error;
+        plan.votes_negatifs = Math.max(0, (plan.votes_negatifs || 0) - 1);
       }
 
       // Ajouter le nouveau vote
@@ -388,16 +382,16 @@
         if (error) throw error;
         plan.confirmations = (plan.confirmations || 0) + 1;
       } else {
-        const newVal = (plan.votes_negatifs || 0) + 1;
-        const { error } = await db.from('bons_plans').update({ votes_negatifs: newVal }).eq('id', id);
+        const { error } = await db.rpc('increment_votes_negatifs', { plan_id: id });
         if (error) throw error;
-        plan.votes_negatifs = newVal;
+        plan.votes_negatifs = (plan.votes_negatifs || 0) + 1;
       }
 
       votes[id] = type;
       localStorage.setItem('mq_v3', JSON.stringify(votes));
       majCarte(id, plan);
       toast(type === 'up' ? '👍 Merci pour ton vote !' : '👎 Merci pour ton retour !', 'ok');
+
     } catch(e) {
       console.error('Erreur vote:', e);
       toast('Erreur lors du vote. Réessaie.', 'err');
