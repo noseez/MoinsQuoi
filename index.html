@@ -200,9 +200,6 @@
       <input id="f-lien" type="url" placeholder="https://..." />
     </div>
     <div class="fg">
-      <label for="f-eco">Économie estimée (€)</label>
-      <input id="f-eco" type="number" min="1" max="9999" placeholder="Ex: 15" />
-    </div>
     <div class="honeypot"><input type="text" id="f-honey" tabindex="-1" autocomplete="off" /></div>
     <button class="btn-submit" id="btn-submit" onclick="soumettre()">Publier ce bon plan</button>
   </div>
@@ -233,7 +230,7 @@
     try {
       const { data, error } = await db
         .from('bons_plans')
-        .select('id,categorie,titre,description,lien,economie_estimee,confirmations,votes_negatifs,created_at')
+        .select('id,categorie,titre,description,lien,confirmations,votes_negatifs,created_at')
         .eq('is_active', true)
         .order('created_at', { ascending: false });
       if (error) throw error;
@@ -287,7 +284,6 @@
       const pc    = pct(up, down);
       const vote  = votes[p.id] || null;
       const date  = new Date(p.created_at).toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' });
-      const eco   = p.economie_estimee ? `<span class="eco">~${p.economie_estimee}€</span>` : '';
 
       // Boutons : si déjà voté up → up voted + down normal cliquable pour changer
       //           si déjà voté down → down voted + up normal cliquable pour changer
@@ -298,7 +294,6 @@
       <div class="card" id="c-${p.id}">
         <div class="card-head">
           <span class="cat-tag">${EMOJIS[p.categorie]||''} ${esc(p.categorie)}</span>
-          ${eco}
         </div>
         <div class="card-title">${esc(p.titre)}</div>
         <div class="card-desc">${esc(p.description)}</div>
@@ -444,7 +439,6 @@
     const titre = document.getElementById('f-titre').value.trim();
     const desc  = document.getElementById('f-desc').value.trim();
     const lien  = document.getElementById('f-lien').value.trim();
-    const eco   = parseInt(document.getElementById('f-eco').value) || null;
     const btn   = document.getElementById('btn-submit');
 
     if (!cat)   { toast('Choisis une catégorie.', 'err'); return; }
@@ -459,7 +453,7 @@
     try {
       const { error } = await db.from('bons_plans').insert({
         categorie: cat, titre, description: desc, lien,
-        economie_estimee: eco, is_active: true,
+        is_active: true,
         confirmations: 0, votes_negatifs: 0
       }).select().single();
 
@@ -471,7 +465,7 @@
       }
 
       closeModal();
-      ['f-cat','f-titre','f-desc','f-lien','f-eco'].forEach(id => document.getElementById(id).value = '');
+      ['f-cat','f-titre','f-desc','f-lien'].forEach(id => document.getElementById(id).value = '');
       btn.disabled = false;
       btn.textContent = 'Publier ce bon plan';
       toast('✅ Bon plan publié ! Merci pour ta contribution.', 'ok');
