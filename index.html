@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,7 +19,6 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'DM Sans', sans-serif; background: var(--blanc); color: var(--noir); line-height: 1.6; }
 
-    /* HEADER */
     header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; }
     .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
     .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: var(--noir); text-decoration: none; display: flex; align-items: center; gap: 8px; }
@@ -25,28 +26,34 @@
     .btn-header { background: var(--vert); color: #fff; border: none; border-radius: 10px; padding: 9px 20px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s; }
     .btn-header:hover { background: var(--vert-dark); }
 
-    /* HERO */
-    .hero { background: linear-gradient(135deg, #f0fdf4, #dcfce7, #bbf7d0); padding: 64px 24px 48px; text-align: center; }
+    .hero { background: linear-gradient(135deg, #f0fdf4, #dcfce7, #bbf7d0); padding: 56px 24px 40px; text-align: center; }
     .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 5vw, 52px); font-weight: 800; color: var(--noir); margin-bottom: 14px; line-height: 1.15; }
     .hero h1 span { color: var(--vert); }
-    .hero p { font-size: 17px; color: #374151; max-width: 520px; margin: 0 auto 32px; }
-    .stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
-    .stat-num { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--vert); display: block; }
-    .stat-label { font-size: 12px; color: var(--gris); }
+    .hero p { font-size: 17px; color: #374151; max-width: 520px; margin: 0 auto; }
 
-    /* MAIN */
-    .main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+    .main { max-width: 1100px; margin: 0 auto; padding: 36px 24px; }
 
-    /* FILTRES */
-    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+    /* BARRE DE RECHERCHE */
+    .search-wrap { margin-bottom: 24px; position: relative; }
+    .search-input {
+      width: 100%; padding: 13px 18px 13px 46px;
+      border: 2px solid var(--border); border-radius: 50px;
+      font-size: 15px; font-family: 'DM Sans', sans-serif;
+      color: var(--noir); background: var(--blanc);
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-input:focus { border-color: var(--vert); box-shadow: 0 0 0 3px rgba(22,163,74,0.1); }
+    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 18px; pointer-events: none; }
+    .search-clear { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 18px; cursor: pointer; color: var(--gris); display: none; }
+    .search-clear.visible { display: block; }
+
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
     .filter-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 50px; border: 1.5px solid var(--border); background: var(--blanc); color: var(--noir); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
     .filter-btn:hover { border-color: var(--vert); color: var(--vert); }
     .filter-btn.active { background: var(--vert); color: #fff; border-color: var(--vert); }
 
-    /* GRILLE */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
 
-    /* CARTE */
     .card { background: var(--blanc); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; transition: transform 0.2s, box-shadow 0.2s; }
     .card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
     .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
@@ -57,42 +64,31 @@
     .card-link a { font-size: 13px; color: var(--vert); font-weight: 500; text-decoration: none; }
     .card-link a:hover { text-decoration: underline; }
 
-    /* BARRE CONFIANCE */
     .trust-wrap { margin-top: 2px; }
     .trust-bar { height: 4px; border-radius: 4px; background: var(--gris-light); overflow: hidden; margin-bottom: 4px; }
     .trust-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--rouge) 0%, #facc15 50%, var(--vert) 100%); transition: width 0.4s; }
     .trust-text { font-size: 11px; color: var(--gris); }
 
-    /* VOTES SUR CHAQUE CARTE */
     .card-votes { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 4px; }
     .votes-question { font-size: 12px; color: var(--gris); font-weight: 500; margin-bottom: 8px; }
     .votes-btns { display: flex; gap: 8px; }
-    .btn-up, .btn-down {
-      display: flex; align-items: center; gap: 5px;
-      padding: 7px 14px; border-radius: 8px; border: 1.5px solid;
-      font-size: 13px; font-weight: 600; cursor: pointer;
-      font-family: 'DM Sans', sans-serif; transition: all 0.15s;
-    }
+    .btn-up, .btn-down { display: flex; align-items: center; gap: 5px; padding: 7px 14px; border-radius: 8px; border: 1.5px solid; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
     .btn-up { color: var(--vert); border-color: var(--vert-light); background: var(--vert-xlight); }
-    .btn-up:hover:not(:disabled) { background: var(--vert-light); }
+    .btn-up:hover { background: var(--vert-light); }
     .btn-up.voted { background: var(--vert); color: #fff; border-color: var(--vert); }
     .btn-down { color: var(--rouge); border-color: var(--rouge-light); background: var(--rouge-xlight); }
-    .btn-down:hover:not(:disabled) { background: var(--rouge-light); }
+    .btn-down:hover { background: var(--rouge-light); }
     .btn-down.voted { background: var(--rouge); color: #fff; border-color: var(--rouge); }
-    .btn-up:disabled, .btn-down:disabled { opacity: 0.55; cursor: not-allowed; }
     .card-date { font-size: 11px; color: var(--gris); }
 
-    /* SKELETONS */
     .sk-card { background: var(--blanc); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 10px; }
     .sk { background: linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%); background-size: 200% 100%; animation: sk 1.4s infinite; border-radius: 6px; height: 13px; }
     @keyframes sk { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-    /* VIDE */
     .empty { grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--gris); }
     .empty-icon { font-size: 44px; margin-bottom: 12px; }
     .empty h3 { font-family:'Syne',sans-serif; font-size:18px; color:var(--noir); margin-bottom:6px; }
 
-    /* MODAL */
     .overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 16px; }
     .overlay.open { display: flex; }
     .modal { background: var(--blanc); border-radius: 18px; padding: 32px; width: 100%; max-width: 500px; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: pop 0.22s ease; }
@@ -113,20 +109,17 @@
     .btn-submit:hover:not(:disabled) { background:var(--vert-dark); }
     .btn-submit:disabled { opacity:0.6; cursor:not-allowed; }
 
-    /* TOAST */
     .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(70px); background:var(--noir); color:#fff; padding:12px 22px; border-radius:50px; font-size:14px; font-weight:500; z-index:300; transition:transform 0.3s; white-space:nowrap; pointer-events:none; }
     .toast.show { transform:translateX(-50%) translateY(0); }
     .toast.ok { background:var(--vert); }
     .toast.err { background:var(--rouge); }
 
-    /* FOOTER */
     footer { border-top:1px solid var(--border); padding:28px 24px; text-align:center; color:var(--gris); font-size:13px; margin-top:32px; }
     footer strong { color:var(--vert); }
 
     @media(max-width:600px){
-      .hero{padding:44px 16px 36px;}
-      .stats{gap:20px;}
-      .main{padding:28px 14px;}
+      .hero{padding:40px 16px 32px;}
+      .main{padding:24px 14px;}
       .grid{grid-template-columns:1fr;}
       .modal{padding:22px;}
     }
@@ -134,7 +127,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <div class="header-inner">
     <a href="/" class="logo">MoinsQuoi <span class="logo-badge">FR</span></a>
@@ -142,32 +134,32 @@
   </div>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <h1>Les vrais bons plans<br><span>partagés par les Français</span></h1>
   <p>Des astuces vécues et testées pour économiser au quotidien. Anonyme, gratuit, voté par la communauté.</p>
-  <div class="stats">
-    <div><span class="stat-num" id="s-total">—</span><span class="stat-label">bons plans</span></div>
-    <div><span class="stat-num" id="s-up">—</span><span class="stat-label">👍 pouces verts</span></div>
-    <div><span class="stat-num" id="s-eco">—€</span><span class="stat-label">économies potentielles</span></div>
-  </div>
 </section>
 
-<!-- CONTENU -->
 <div class="main">
-  <!-- Filtres catégories -->
+
+  <!-- BARRE DE RECHERCHE -->
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="search" type="text" placeholder="Rechercher une marque ou un service... (ex: Netflix, SFR, Spotify)" oninput="onSearch()" />
+    <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+  </div>
+
+  <!-- FILTRES -->
   <div class="filters" id="filters">
     <button class="filter-btn active" onclick="filterCat('tous',this)">🔥 Tous</button>
     <button class="filter-btn" onclick="filterCat('Télécom',this)">📱 Télécom</button>
     <button class="filter-btn" onclick="filterCat('Logement',this)">🏠 Logement</button>
     <button class="filter-btn" onclick="filterCat('Courses',this)">🛒 Courses</button>
     <button class="filter-btn" onclick="filterCat('Santé',this)">🏥 Santé</button>
-    <button class="filter-btn" onclick="filterCat('Voiture',this)">🚗 Voiture</button>
+    <button class="filter-btn" onclick="filterCat('Transports',this)">🚗 Transports</button>
     <button class="filter-btn" onclick="filterCat('Aides',this)">💼 Aides</button>
     <button class="filter-btn" onclick="filterCat('Abonnements',this)">📦 Abonnements</button>
   </div>
 
-  <!-- Grille des bons plans -->
   <div class="grid" id="grid">
     <div class="sk-card"><div class="sk" style="width:40%"></div><div class="sk" style="width:80%"></div><div class="sk" style="height:55px"></div><div class="sk" style="width:55%"></div></div>
     <div class="sk-card"><div class="sk" style="width:35%"></div><div class="sk" style="width:75%"></div><div class="sk" style="height:55px"></div><div class="sk" style="width:60%"></div></div>
@@ -175,7 +167,6 @@
   </div>
 </div>
 
-<!-- MODAL SOUMISSION -->
 <div class="overlay" id="overlay" onclick="bgClick(event)">
   <div class="modal">
     <div class="modal-head">
@@ -183,7 +174,6 @@
       <button class="btn-close" onclick="closeModal()">✕</button>
     </div>
     <div class="info">👋 <strong>Anonyme et immédiat</strong> — Ton bon plan sera publié instantanément. La communauté pourra voter 👍 ou 👎 pour confirmer s'il fonctionne encore.</div>
-
     <div class="fg">
       <label for="f-cat">Catégorie <span>*</span></label>
       <select id="f-cat">
@@ -192,7 +182,7 @@
         <option value="Logement">🏠 Logement & Charges</option>
         <option value="Courses">🛒 Courses & Alimentation</option>
         <option value="Santé">🏥 Santé & Remboursements</option>
-        <option value="Voiture">🚗 Voiture & Transport</option>
+        <option value="Transports">🚗 Transports & Voiture</option>
         <option value="Aides">💼 Aides & Allocations</option>
         <option value="Abonnements">📦 Abonnements & Services</option>
       </select>
@@ -213,38 +203,32 @@
       <label for="f-eco">Économie estimée (€)</label>
       <input id="f-eco" type="number" min="1" max="9999" placeholder="Ex: 15" />
     </div>
-    <!-- Honeypot anti-spam -->
     <div class="honeypot"><input type="text" id="f-honey" tabindex="-1" autocomplete="off" /></div>
     <button class="btn-submit" id="btn-submit" onclick="soumettre()">Publier ce bon plan</button>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- FOOTER -->
 <footer>
   <strong>MoinsQuoi.fr</strong> — Les vrais bons plans des Français, pour les Français.<br>
   Anonyme · Voté par la communauté · 100% gratuit
 </footer>
 
 <script>
-  // ═══════════════════════════════════════════
-  // CONFIG — remplace ces deux valeurs
-  // ═══════════════════════════════════════════
   const SUPABASE_URL  = 'https://aorsbsggjtdtnvmrohhi.supabase.co';
   const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvcnNic2dnanRkdG52bXJvaGhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMzA3MTEsImV4cCI6MjA5MzgwNjcxMX0.b2P_JPytYStDGLzg1CJ3TPCdmHNdE2YL3raB6baA1qI';
-  // ═══════════════════════════════════════════
 
   const { createClient } = supabase;
   const db = createClient(SUPABASE_URL, SUPABASE_ANON);
 
-  const EMOJIS = { Télécom:'📱', Logement:'🏠', Courses:'🛒', Santé:'🏥', Voiture:'🚗', Aides:'💼', Abonnements:'📦' };
+  const EMOJIS = { 'Télécom':'📱', 'Logement':'🏠', 'Courses':'🛒', 'Santé':'🏥', 'Transports':'🚗', 'Aides':'💼', 'Abonnements':'📦' };
   let plans = [];
   let catActive = 'tous';
-  let votes = JSON.parse(localStorage.getItem('mq_v2') || '{}');
+  let searchQuery = '';
+  // votes stocke : { [planId]: 'up' | 'down' }
+  let votes = JSON.parse(localStorage.getItem('mq_v3') || '{}');
 
-  // ── CHARGEMENT ────────────────────────────
   async function charger() {
     try {
       const { data, error } = await db
@@ -252,21 +236,13 @@
         .select('id,categorie,titre,description,lien,economie_estimee,confirmations,votes_negatifs,created_at')
         .eq('is_active', true)
         .order('created_at', { ascending: false });
-
       if (error) throw error;
       plans = data || [];
-      majStats();
       afficher();
-    } catch (e) {
+    } catch(e) {
       console.error('Erreur chargement:', e);
       document.getElementById('grid').innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><h3>Erreur de chargement</h3><p>Vérifie tes clés Supabase.</p></div>';
     }
-  }
-
-  function majStats() {
-    document.getElementById('s-total').textContent = plans.length;
-    document.getElementById('s-up').textContent    = plans.reduce((s,p) => s+(p.confirmations||0), 0).toLocaleString('fr-FR');
-    document.getElementById('s-eco').textContent   = plans.reduce((s,p) => s+(p.economie_estimee||0), 0).toLocaleString('fr-FR') + '€';
   }
 
   function pct(up, down) {
@@ -275,33 +251,48 @@
   }
   function labelConfiance(p, total) {
     if (total === 0) return '🗳️ Pas encore de votes';
-    if (p >= 80)     return '✅ Très fiable';
-    if (p >= 60)     return '👍 Plutôt fiable';
-    if (p >= 40)     return '⚠️ Avis partagés';
+    if (p >= 80) return '✅ Très fiable';
+    if (p >= 60) return '👍 Plutôt fiable';
+    if (p >= 40) return '⚠️ Avis partagés';
     return '❌ Peu fiable';
   }
-
   function esc(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   function afficher() {
     const grid = document.getElementById('grid');
-    const liste = catActive === 'tous' ? plans : plans.filter(p => p.categorie === catActive);
+    let liste = catActive === 'tous' ? plans : plans.filter(p => p.categorie === catActive);
+
+    // Filtre recherche
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      liste = liste.filter(p =>
+        p.titre.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q) ||
+        p.categorie.toLowerCase().includes(q)
+      );
+    }
 
     if (liste.length === 0) {
-      grid.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><h3>Aucun bon plan ici pour l'instant</h3><p>Sois le premier à en partager un !</p></div>`;
+      const msg = searchQuery ? `Aucun résultat pour "<strong>${esc(searchQuery)}</strong>"` : "Aucun bon plan ici pour l'instant";
+      grid.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><h3>${msg}</h3><p>Sois le premier à en partager un !</p></div>`;
       return;
     }
 
     grid.innerHTML = liste.map(p => {
-      const up    = p.confirmations   || 0;
-      const down  = p.votes_negatifs  || 0;
+      const up    = p.confirmations  || 0;
+      const down  = p.votes_negatifs || 0;
       const total = up + down;
       const pc    = pct(up, down);
       const vote  = votes[p.id] || null;
       const date  = new Date(p.created_at).toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' });
       const eco   = p.economie_estimee ? `<span class="eco">~${p.economie_estimee}€</span>` : '';
+
+      // Boutons : si déjà voté up → up voted + down normal cliquable pour changer
+      //           si déjà voté down → down voted + up normal cliquable pour changer
+      const upClass   = vote === 'up'   ? 'btn-up voted'   : 'btn-up';
+      const downClass = vote === 'down' ? 'btn-down voted' : 'btn-down';
 
       return `
       <div class="card" id="c-${p.id}">
@@ -312,19 +303,17 @@
         <div class="card-title">${esc(p.titre)}</div>
         <div class="card-desc">${esc(p.description)}</div>
         <div class="card-link">🔗 <a href="${esc(p.lien)}" target="_blank" rel="noopener noreferrer">Voir l'offre</a></div>
-
         <div class="trust-wrap">
           <div class="trust-bar"><div class="trust-fill" id="tf-${p.id}" style="width:${pc}%"></div></div>
           <div class="trust-text" id="tt-${p.id}">${labelConfiance(pc, total)} · ${total} vote${total!==1?'s':''}</div>
         </div>
-
         <div class="card-votes">
           <div class="votes-question">Cette offre fonctionne encore ?</div>
           <div class="votes-btns">
-            <button class="btn-up ${vote==='up'?'voted':''}" onclick="voter('${p.id}','up')" ${vote?'disabled':''}>
+            <button class="${upClass}" onclick="voter('${p.id}','up')">
               👍 <span id="u-${p.id}">${up}</span>
             </button>
-            <button class="btn-down ${vote==='down'?'voted':''}" onclick="voter('${p.id}','down')" ${vote?'disabled':''}>
+            <button class="${downClass}" onclick="voter('${p.id}','down')">
               👎 <span id="d-${p.id}">${down}</span>
             </button>
           </div>
@@ -334,7 +323,6 @@
     }).join('');
   }
 
-  // ── FILTRE ────────────────────────────────
   function filterCat(cat, btn) {
     catActive = cat;
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -342,16 +330,64 @@
     afficher();
   }
 
-  // ── VOTER ─────────────────────────────────
+  // RECHERCHE
+  function onSearch() {
+    searchQuery = document.getElementById('search').value;
+    const clearBtn = document.getElementById('search-clear');
+    clearBtn.classList.toggle('visible', searchQuery.length > 0);
+    afficher();
+  }
+  function clearSearch() {
+    document.getElementById('search').value = '';
+    searchQuery = '';
+    document.getElementById('search-clear').classList.remove('visible');
+    afficher();
+  }
+
+  // VOTER — permet de changer son vote ou de voter pour la première fois
   async function voter(id, type) {
-    if (votes[id]) return;
     const plan = plans.find(p => p.id === id);
     if (!plan) return;
 
-    const card = document.getElementById('c-' + id);
-    card.querySelectorAll('.btn-up,.btn-down').forEach(b => b.disabled = true);
+    const currentVote = votes[id] || null;
 
+    // Si même vote → on annule (toggle)
+    if (currentVote === type) {
+      // Annuler le vote
+      try {
+        if (type === 'up') {
+          const newVal = Math.max(0, (plan.confirmations || 0) - 1);
+          await db.from('bons_plans').update({ confirmations: newVal }).eq('id', id);
+          plan.confirmations = newVal;
+        } else {
+          const newVal = Math.max(0, (plan.votes_negatifs || 0) - 1);
+          await db.from('bons_plans').update({ votes_negatifs: newVal }).eq('id', id);
+          plan.votes_negatifs = newVal;
+        }
+        delete votes[id];
+        localStorage.setItem('mq_v3', JSON.stringify(votes));
+        majCarte(id, plan);
+        toast('Vote annulé.', '');
+      } catch(e) { toast('Erreur. Réessaie.', 'err'); }
+      return;
+    }
+
+    // Si vote différent → changer
     try {
+      if (currentVote) {
+        // Annuler l'ancien vote d'abord
+        if (currentVote === 'up') {
+          const newVal = Math.max(0, (plan.confirmations || 0) - 1);
+          await db.from('bons_plans').update({ confirmations: newVal }).eq('id', id);
+          plan.confirmations = newVal;
+        } else {
+          const newVal = Math.max(0, (plan.votes_negatifs || 0) - 1);
+          await db.from('bons_plans').update({ votes_negatifs: newVal }).eq('id', id);
+          plan.votes_negatifs = newVal;
+        }
+      }
+
+      // Ajouter le nouveau vote
       if (type === 'up') {
         const { error } = await db.rpc('increment_confirmations', { plan_id: id });
         if (error) throw error;
@@ -364,38 +400,46 @@
       }
 
       votes[id] = type;
-      localStorage.setItem('mq_v2', JSON.stringify(votes));
-
-      const up    = plan.confirmations  || 0;
-      const down  = plan.votes_negatifs || 0;
-      const total = up + down;
-      const pc    = pct(up, down);
-
-      document.getElementById('u-'  + id).textContent = up;
-      document.getElementById('d-'  + id).textContent = down;
-      document.getElementById('tf-' + id).style.width = pc + '%';
-      document.getElementById('tt-' + id).textContent = labelConfiance(pc, total) + ' · ' + total + ' vote' + (total!==1?'s':'');
-      card.querySelector('.btn-' + type).classList.add('voted');
-
-      majStats();
+      localStorage.setItem('mq_v3', JSON.stringify(votes));
+      majCarte(id, plan);
       toast(type === 'up' ? '👍 Merci pour ton vote !' : '👎 Merci pour ton retour !', 'ok');
     } catch(e) {
       console.error('Erreur vote:', e);
-      card.querySelectorAll('.btn-up,.btn-down').forEach(b => b.disabled = false);
       toast('Erreur lors du vote. Réessaie.', 'err');
     }
   }
 
-  // ── MODAL ─────────────────────────────────
+  function majCarte(id, plan) {
+    const up    = plan.confirmations  || 0;
+    const down  = plan.votes_negatifs || 0;
+    const total = up + down;
+    const pc    = pct(up, down);
+    const vote  = votes[id] || null;
+
+    const uEl = document.getElementById('u-' + id);
+    const dEl = document.getElementById('d-' + id);
+    const tf  = document.getElementById('tf-' + id);
+    const tt  = document.getElementById('tt-' + id);
+    if (uEl) uEl.textContent = up;
+    if (dEl) dEl.textContent = down;
+    if (tf)  tf.style.width  = pc + '%';
+    if (tt)  tt.textContent  = labelConfiance(pc, total) + ' · ' + total + ' vote' + (total!==1?'s':'');
+
+    const card = document.getElementById('c-' + id);
+    if (card) {
+      const upBtn   = card.querySelector('.btn-up');
+      const downBtn = card.querySelector('.btn-down');
+      if (upBtn)   upBtn.className   = vote === 'up'   ? 'btn-up voted'   : 'btn-up';
+      if (downBtn) downBtn.className = vote === 'down' ? 'btn-down voted' : 'btn-down';
+    }
+  }
+
   function openModal()  { document.getElementById('overlay').classList.add('open');    document.body.style.overflow='hidden'; }
   function closeModal() { document.getElementById('overlay').classList.remove('open'); document.body.style.overflow=''; }
   function bgClick(e)   { if (e.target===document.getElementById('overlay')) closeModal(); }
 
-  // ── SOUMISSION ────────────────────────────
   async function soumettre() {
-    // Anti-spam honeypot
     if (document.getElementById('f-honey').value) return;
-
     const cat   = document.getElementById('f-cat').value.trim();
     const titre = document.getElementById('f-titre').value.trim();
     const desc  = document.getElementById('f-desc').value.trim();
@@ -403,7 +447,6 @@
     const eco   = parseInt(document.getElementById('f-eco').value) || null;
     const btn   = document.getElementById('btn-submit');
 
-    // Validation
     if (!cat)   { toast('Choisis une catégorie.', 'err'); return; }
     if (!titre) { toast('Ajoute un titre.', 'err'); return; }
     if (!desc)  { toast('Ajoute une description.', 'err'); return; }
@@ -414,55 +457,33 @@
     btn.textContent = 'Publication en cours...';
 
     try {
-      const { data, error } = await db
-        .from('bons_plans')
-        .insert({
-          categorie:        cat,
-          titre:            titre,
-          description:      desc,
-          lien:             lien,
-          economie_estimee: eco,
-          is_active:        true,
-          confirmations:    0,
-          votes_negatifs:   0
-        })
-        .select()
-        .single();
+      const { error } = await db.from('bons_plans').insert({
+        categorie: cat, titre, description: desc, lien,
+        economie_estimee: eco, is_active: true,
+        confirmations: 0, votes_negatifs: 0
+      }).select().single();
 
       if (error) {
-        if (error.code === '23505') {
-          toast('Ce lien existe déjà sur le site.', 'err');
-        } else {
-          console.error('Erreur INSERT:', error);
-          toast('Erreur : ' + (error.message || 'réessaie.'), 'err');
-        }
+        toast(error.code === '23505' ? 'Ce lien existe déjà sur le site.' : 'Erreur : ' + (error.message || 'réessaie.'), 'err');
         btn.disabled = false;
         btn.textContent = 'Publier ce bon plan';
         return;
       }
 
-      // Succès
       closeModal();
-      document.getElementById('f-cat').value   = '';
-      document.getElementById('f-titre').value = '';
-      document.getElementById('f-desc').value  = '';
-      document.getElementById('f-lien').value  = '';
-      document.getElementById('f-eco').value   = '';
+      ['f-cat','f-titre','f-desc','f-lien','f-eco'].forEach(id => document.getElementById(id).value = '');
       btn.disabled = false;
       btn.textContent = 'Publier ce bon plan';
-
       toast('✅ Bon plan publié ! Merci pour ta contribution.', 'ok');
       await charger();
-
     } catch(e) {
-      console.error('Erreur inattendue:', e);
+      console.error('Erreur:', e);
       toast('Erreur inattendue. Réessaie.', 'err');
       btn.disabled = false;
       btn.textContent = 'Publier ce bon plan';
     }
   }
 
-  // ── TOAST ─────────────────────────────────
   function toast(msg, type='') {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -470,7 +491,6 @@
     setTimeout(() => { t.className = 'toast'; }, 3500);
   }
 
-  // ── INIT ──────────────────────────────────
   charger();
 </script>
 </body>
